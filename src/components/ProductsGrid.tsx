@@ -1,5 +1,5 @@
 import { useLoaderData, Link } from 'react-router-dom'
-import { Product } from '../model/product'
+import { Product } from '../model'
 import { formatPrice } from '../utils'
 
 const ProductsGrid = () => {

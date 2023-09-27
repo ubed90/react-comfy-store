@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs'
 import { FaBarsStaggered } from 'react-icons/fa6'
 import { NavLink } from 'react-router-dom'
 import NavLinks from './NavLinks'
+import { useSelector } from 'react-redux'
+import { RootState } from '../Store'
 
 // * Themes Available
 enum Themes {
@@ -29,6 +31,10 @@ const Navbar = () => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('theme', theme)
   }, [theme])
+
+  const numOfItemsInCart = useSelector(
+    (state: RootState) => state.cart.numItemsInCart
+  )
 
   return (
     <nav className="bg-base-200">
@@ -75,7 +81,7 @@ const Navbar = () => {
             <div className="indicator">
               <BsCart3 className="h-6 w-6" />
               <span className="badge badge-sm badge-primary indicator-item">
-                8
+                {numOfItemsInCart}
               </span>
             </div>
           </NavLink>

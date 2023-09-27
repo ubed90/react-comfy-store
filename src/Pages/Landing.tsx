@@ -1,5 +1,5 @@
 import { FeaturedProducts, Hero } from '../components'
-import { Product } from '../model/product'
+import { Product } from '../model'
 import { customFetch } from '../utils'
 
 const url = '/products?featured=true'

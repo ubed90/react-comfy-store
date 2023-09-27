@@ -4,6 +4,7 @@ interface InputProps {
   label: string
   name: string
   type: string
+  size?: string
   defaultValue?: string
 }
 
@@ -11,18 +12,19 @@ const FormInput: React.FC<InputProps> = ({
   name,
   label,
   type,
-  defaultValue = 'Enter Something',
+  size = '',
+  defaultValue = '',
 }) => {
   return (
     <div className="form-control">
       <label className="label">
-        <span className="label-text">{label}</span>
+        <span className="label-text capitalize">{label}</span>
       </label>
       <input
         type={type}
         name={name}
         defaultValue={defaultValue}
-        className="input input-bordered"
+        className={`input input-bordered ${size}`}
       />
     </div>
   )
