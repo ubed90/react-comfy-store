@@ -1,20 +1,32 @@
-import { Link, Params, useLoaderData } from 'react-router-dom'
+import { Link, LoaderFunction, Params, useLoaderData } from 'react-router-dom'
 import { customFetch, formatPrice, generateAmountOptions } from '../../utils'
 import { Product as SingleProduct, cartItem } from '../../model'
 import { ChangeEvent, useState } from 'react'
 import { useAppDispatch } from '../../Store'
 import { addItem } from '../../features/cart/cartSlice'
+import { QueryClient } from '@tanstack/react-query'
 
-export const loader = async ({
-  params,
-}: {
-  params: Params
-}): Promise<{ product: SingleProduct }> => {
-  const {
-    data: { data: product },
-  } = await customFetch(`/products/${params.id}`)
-  return { product }
+const singleProductQuery = (id: string) => {
+  return {
+    queryKey: ['singleProduct', id],
+    queryFn: () => customFetch.get(`/products/${id}`),
+  }
 }
+
+export const loader =
+  (queryClient: QueryClient): LoaderFunction =>
+  async ({
+    params,
+  }: {
+    params: Params
+  }): Promise<{ product: SingleProduct }> => {
+    const {
+      data: { data: product },
+    } = await queryClient.ensureQueryData(
+      singleProductQuery(params.id as string)
+    )
+    return { product }
+  }
 
 const Product = () => {
   const { product } = useLoaderData() as { product: SingleProduct }

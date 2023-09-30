@@ -1,6 +1,25 @@
-import React from 'react'
 import { FormInput, SubmitBtn } from '../components'
-import { Form, Link } from 'react-router-dom'
+import { ActionFunction, Form, Link, redirect } from 'react-router-dom'
+import { customFetch } from '../utils'
+import { toast } from 'react-toastify'
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+  const data = Object.fromEntries(formData)
+  console.log(data)
+
+  try {
+    const response = await customFetch.post('/auth/local/register', data)
+    toast.success('Account Created SuccessFully')
+    return redirect('/login')
+  } catch (error: any) {
+    console.log(error)
+    const errorMessage =
+      error?.response?.data?.error?.message || 'Some Error Occured'
+    toast.error(errorMessage)
+    return null
+  }
+}
 
 const Register = () => {
   return (
@@ -16,12 +35,7 @@ const Register = () => {
           name="username"
           defaultValue=""
         />
-        <FormInput
-          type="email"
-          label="email"
-          name="identifier"
-          defaultValue=""
-        />
+        <FormInput type="email" label="email" name="email" defaultValue="" />
         <FormInput
           type="password"
           label="password"
@@ -29,7 +43,7 @@ const Register = () => {
           defaultValue=""
         />
         <div className="mt-4">
-          <SubmitBtn text="login" />
+          <SubmitBtn text="Register" />
         </div>
         <button type="button" className="btn btn-secondary btn-block">
           Guest User
@@ -40,7 +54,7 @@ const Register = () => {
             to="/login"
             className="ml-2 link link-hover link-primary capitalize"
           >
-            Register
+            Login
           </Link>
         </p>
       </Form>

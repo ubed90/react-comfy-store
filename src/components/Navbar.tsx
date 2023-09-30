@@ -5,32 +5,30 @@ import { FaBarsStaggered } from 'react-icons/fa6'
 import { NavLink } from 'react-router-dom'
 import NavLinks from './NavLinks'
 import { useSelector } from 'react-redux'
-import { RootState } from '../Store'
-
-// * Themes Available
-enum Themes {
-  LIGHT = 'winter',
-  DARK = 'dracula',
-}
-
-// * Get Theme From Local Storage
-const getThemeFromLocalStorage = () => {
-  return localStorage.getItem('theme') || Themes.LIGHT
-}
+import { RootState, useAppDispatch } from '../Store'
+import { toggleTheme } from '../features/user/userSlice'
 
 const Navbar = () => {
-  const [theme, setTheme] = useState<string>(getThemeFromLocalStorage())
+  const dispatch = useAppDispatch()
 
+  // ! Previous Before REDUX TOOLKIT
+  // const [theme, setTheme] = useState<string>(getThemeFromLocalStorage())
+
+  // const handleTheme = () => {
+  //   const newTheme = theme === Themes.LIGHT ? Themes.DARK : Themes.LIGHT
+
+  //   setTheme(newTheme)
+  // }
+
+  // useEffect(() => {
+  //   document.documentElement.setAttribute('data-theme', theme)
+  //   localStorage.setItem('theme', theme)
+  // }, [theme])
+
+  // * AFter REDUX TOOLKIT
   const handleTheme = () => {
-    const newTheme = theme === Themes.LIGHT ? Themes.DARK : Themes.LIGHT
-
-    setTheme(newTheme)
+    dispatch(toggleTheme())
   }
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-  }, [theme])
 
   const numOfItemsInCart = useSelector(
     (state: RootState) => state.cart.numItemsInCart

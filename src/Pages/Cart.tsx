@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { RootState } from '../Store'
 
 const Cart = () => {
-  const user = null
+  const user = useSelector((state: RootState) => state.user.user)
 
   const numOfItemsInCart = useSelector(
     (state: RootState) => state.cart.numItemsInCart
