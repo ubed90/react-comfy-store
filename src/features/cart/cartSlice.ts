@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { CartState, cartItem } from '../../model'
+import { CartState } from '../../model'
 import { toast } from 'react-toastify'
 
 const initialState: CartState = {
